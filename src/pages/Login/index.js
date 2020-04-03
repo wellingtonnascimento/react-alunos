@@ -11,6 +11,7 @@ export default function Login() {
         <small>Oi </small>
       </Title>
       <Paragrafo>djasdhd jaodj oaid jad</Paragrafo>
+      <button type="button">Enviar </button>
     </Container>
   );
 }
