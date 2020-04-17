@@ -2,13 +2,16 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { isEmail } from 'validator';
 import { useDispatch } from 'react-redux';
+import { get } from 'lodash';
 
 import { Container } from '../../styles/GlobalStyles';
 import { Form } from './styled';
 import * as actions from '../../store/modules/auth/actions';
 
-export default function Login() {
+export default function Login(props) {
   const dispatch = useDispatch();
+
+  const prevPath = get(props, 'location.state.prevPath', '/');
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -19,17 +22,17 @@ export default function Login() {
 
     if (!isEmail(email)) {
       formErrors = true;
-      toast.error('Email Invalido ');
+      toast.error('E-mail inválido.');
     }
 
     if (password.length < 6 || password.length > 50) {
       formErrors = true;
-      toast.error('Senha Invalida');
+      toast.error('Senha inválida');
     }
 
     if (formErrors) return;
 
-    dispatch(actions.loginRequest({ email, password }));
+    dispatch(actions.loginRequest({ email, password, prevPath }));
   };
   return (
     <Container>
@@ -40,13 +43,13 @@ export default function Login() {
           type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Seu Email"
+          placeholder="Seu e-mail"
         />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Sua Senha"
+          placeholder="Sua senha"
         />
         <button type="submit">Acessar</button>
       </Form>
